@@ -3,6 +3,7 @@ package assembly_go
 import (
 	"assembly_go/models"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -39,8 +40,13 @@ type Client struct {
 }
 
 // NewClient는 새로운 SDK 클라이언트를 생성합니다.
-// 사용자는 이 함수를 통해 SDK 사용을 시작합니다.
-func NewClient(apiKey string, options ...Option) *Client {
+// apiKey가 비어있는 경우 ErrInvalidID 에러를 반환합니다.
+func NewClient(apiKey string, options ...Option) (*Client, error) { // 반환값에 error 추가
+	if apiKey == "" {
+		return nil, errors.New("API Key is required") // 명시적인 에러 메시지
+		// 또는 정의된 SDK 에러를 사용: return nil, ErrInvalidID
+	}
+
 	// 기본값 설정
 	c := &Client{
 		httpClient: &http.Client{Timeout: 30 * time.Second},      // 기본 타임아웃 30초
@@ -54,7 +60,7 @@ func NewClient(apiKey string, options ...Option) *Client {
 		opt(c)
 	}
 
-	return c
+	return c, nil // 에러가 없으면 nil 반환
 }
 
 // 이 아래에 인터페이스 메소드들을 구현해 나갈 것입니다.
