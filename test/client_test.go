@@ -1,0 +1,1 @@
+package assembly_go_test
