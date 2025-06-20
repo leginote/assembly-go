@@ -36,7 +36,7 @@ func (c *Client) downloadBillPdf(innerBillId string) ([]byte, error) {
 
 	// isHTMLContent는 SDK 내부에서만 사용되므로 여기에 정의하거나, 별도 util 파일로 분리 가능
 	// leginote-worker-bill/util/validation.go 로직 사용
-	if isHTMLContent(pdfBinary) {
+	if IsHTMLContent(pdfBinary) {
 		return nil, fmt.Errorf("%w (innerBillId: %s)", ErrHTMLContent, innerBillId)
 	}
 
@@ -61,7 +61,7 @@ func (c *Client) downloadPdfWithUrl(pdfURL string) ([]byte, error) {
 
 // isHTMLContent는 다운로드된 데이터가 HTML 문서인지 확인합니다. (이 함수는 이 파일 내에서만 사용될 수 있습니다.)
 // 기존 leginote-worker-bill/util/validation.go 의 로직을 가져왔습니다.
-func isHTMLContent(data []byte) bool {
+func IsHTMLContent(data []byte) bool {
 	htmlIndicators := [][]byte{
 		[]byte("<!DOCTYPE html>"),
 		[]byte("<html>"),

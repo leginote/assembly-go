@@ -63,6 +63,19 @@ func NewClient(apiKey string, options ...Option) (*Client, error) { // 반환값
 	return c, nil // 에러가 없으면 nil 반환
 }
 
+// --- 공개 API 메서드 구현 ---
+// 이 코드를 client.go에 추가하거나 유지합니다.
+
+// DownloadBill은 innerBillId를 사용하여 법안 PDF 원문을 다운로드하는 공개 메서드입니다.
+func (c *Client) DownloadBill(innerBillId string) ([]byte, error) {
+	return c.downloadBillPdf(innerBillId)
+}
+
+// DownloadMeetingRecord는 PDF URL을 사용하여 회의록을 다운로드하는 공개 메서드입니다.
+func (c *Client) DownloadMeetingRecord(pdfURL string) ([]byte, error) {
+	return c.downloadPdfWithUrl(pdfURL)
+}
+
 // 이 아래에 인터페이스 메소드들을 구현해 나갈 것입니다.
 // 기존 DownloadBill 및 DownloadMeetingRecord 메서드는 그대로 유지하거나,
 // Client 구조체의 메서드로 옮겨와 Client의 httpClient를 사용하도록 변경할 수 있습니다.
